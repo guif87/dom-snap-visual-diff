@@ -10,7 +10,13 @@ export async function captureBaselineCommand(
 ): Promise<void> {
   const workspaceFolders = vscode.workspace.workspaceFolders;
   if (!workspaceFolders || workspaceFolders.length === 0) {
-    vscode.window.showErrorMessage('DOM-Snap: Please open a workspace folder first.');
+    const action = await vscode.window.showErrorMessage(
+      'DOM-Snap requires an open folder to save snapshot baselines (.dom-snap/).',
+      'Open Folder'
+    );
+    if (action === 'Open Folder') {
+      await vscode.commands.executeCommand('vscode.openFolder');
+    }
     return;
   }
 
