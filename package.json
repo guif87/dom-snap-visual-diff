@@ -1,0 +1,106 @@
+{
+  "name": "dom-snap-visual-diff",
+  "displayName": "DOM-Snap: AI Visual & DOM Regression",
+  "description": "Visual regression diffing, DOM structure inspection, and instant Playwright test generation inside VS Code.",
+  "version": "0.1.0",
+  "publisher": "qa-devtools",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Testing",
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "domSnapContainer",
+          "title": "DOM-Snap",
+          "icon": "$(eye)"
+        }
+      ]
+    },
+    "views": {
+      "domSnapContainer": [
+        {
+          "id": "domSnapSnapshotsView",
+          "name": "Snapshots & Regressions"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "domSnap.captureBaseline",
+        "title": "DOM-Snap: Capture Baseline Snapshot",
+        "category": "DOM-Snap"
+      },
+      {
+        "command": "domSnap.compareWithCurrent",
+        "title": "DOM-Snap: Compare Current URL Against Baseline",
+        "category": "DOM-Snap"
+      },
+      {
+        "command": "domSnap.startRecordingTest",
+        "title": "DOM-Snap: Record User Actions to Playwright Test",
+        "category": "DOM-Snap"
+      },
+      {
+        "command": "domSnap.exportBugReport",
+        "title": "DOM-Snap: Generate One-Click Defect Payload",
+        "category": "DOM-Snap"
+      }
+    ],
+    "configuration": {
+      "title": "DOM-Snap Configuration",
+      "properties": {
+        "domSnap.defaultViewport": {
+          "type": "object",
+          "default": {
+            "width": 1280,
+            "height": 720
+          },
+          "description": "Default browser viewport for visual snapshots"
+        },
+        "domSnap.maskSelectors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "[data-volatile]",
+            ".timestamp",
+            ".dynamic-token"
+          ],
+          "description": "CSS selectors to visually hide and DOM-mask during diffs"
+        },
+        "domSnap.diffTolerance": {
+          "type": "number",
+          "default": 0.1,
+          "description": "Pixelmatch color difference threshold (0 to 1)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "node esbuild.js --production",
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "test": "echo \"Ready for tests\""
+  },
+  "dependencies": {
+    "jsondiffpatch": "^0.6.0",
+    "pixelmatch": "^5.3.0",
+    "playwright": "^1.49.1",
+    "pngjs": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.10",
+    "@types/pixelmatch": "^5.2.6",
+    "@types/pngjs": "^6.0.5",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.24.2",
+    "typescript": "^5.7.2"
+  }
+}
